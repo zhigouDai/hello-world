@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Import style -->
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/vant@3/lib/index.css" />
+	<style>
+	  body {
+		margin: 0 auto;
+		//background-image: url('https://c-ssl.duitang.com/uploads/blog/202102/16/20210216114045_92963.jpg');
+		//background-repeat: no-repeat;
+		//background-size: cover;
+		//background-attachment: fixed;
+		background-color: #f9f9f9;
+	  }
+	  
+	  #app {
+		text-align: center;
+		height: calc(100vh - 46px);
+		line-height: calc(100vh - 46px);
+	  }
+	  
+	  .van-nav-bar {
+		background-color: #ffffff;
+	  }
+	  
+	  .van-button {
+		width: 85px;
+		height: 85px;
+		font-size: 42px;
+		font-weight: bold;
+	  }
+	</style>
+  </head>
+<body>
+  <div id="app">
+	<van-nav-bar title="一夜暴富" safe-area-inset-top="true"></van-nav-bar>
+	<van-button round type="success">{{num1}}</van-button>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<van-button round type="success">{{num2}}</van-button>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<van-button round type="success">{{num3}}</van-button>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<van-button round type="success">{{num4}}</van-button>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<van-button round type="success">{{num5}}</van-button>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<van-button round type="danger">{{num6}}</van-button>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<van-button round type="danger">{{num7}}</van-button>
+  </div>
+
+  <!-- 引入 Vue 和 Vant 的 JS 文件 -->
+  <script src="https://fastly.jsdelivr.net/npm/vue@3"></script>
+  <script src="https://fastly.jsdelivr.net/npm/vant@3/lib/vant.min.js"></script>
+
+  <script>
+	const App = {
+	  mounted() {
+	    const nums = this.getRandom(12, 35, 5);
+		this.num1 = this.paddingZero(nums.front[0]);
+		this.num2 = this.paddingZero(nums.front[1]);
+		this.num3 = this.paddingZero(nums.front[2]);
+		this.num4 = this.paddingZero(nums.front[3]);
+		this.num5 = this.paddingZero(nums.front[4]);
+		this.num6 = this.paddingZero(nums.back[0]);
+		this.num7 = this.paddingZero(nums.back[1]);
+	  },
+	  data() {
+	    return {
+		  num1: '',
+		  num2: '',
+		  num3: '',
+		  num4: '',
+		  num5: '',
+		  num6: '',
+		  num7: '',
+	    };
+	  },
+	  methods: {
+		paddingZero(num) {
+		  if(num < 10) {
+			return '0' + num
+		  }
+		  return num
+		},
+	  
+		alternativeBubbleSort (arr) {
+		  let swapped = true
+
+		  while (swapped) {
+		    swapped = false
+		    for (let i = 0; i < arr.length - 1; i++) {
+			  if (arr[i] > arr[i + 1]) {
+			    [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]]
+			    swapped = true
+			  }
+		    }
+		  }
+
+		  return arr
+	    },
+
+	    getRandom(min, max, num) {
+		  var front = [];
+		  while (front.length < num) {
+		    var n = Math.floor(Math.random() * max + 1);
+		    if (front.indexOf(n) == -1) {
+			  front.push(n)
+		    }
+		  }
+		
+		  var back = [];
+		  while (back.length < (7 - num)) {
+		    var n = Math.floor(Math.random() * min + 1);
+		    if (back.indexOf(n) == -1) {
+			  back.push(n)
+		    }
+		  }
+
+		  return {
+		    front: this.alternativeBubbleSort(front),
+		    back: this.alternativeBubbleSort(back)
+		  }
+	    },
+      }
+	}
+	
+	// 在 #app 标签下渲染一个按钮组件
+	const app = Vue.createApp(App);
+	
+	app.use(vant);
+
+	app.mount('#app');
+  </script>
+</body>
+ 
+</html>
